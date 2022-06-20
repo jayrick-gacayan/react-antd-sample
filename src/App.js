@@ -1,25 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react';
+import StudentContainer from './components/StudentContainer';
+import { schoolData, studentData } from './data';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component{
+    constructor(props){
+        super(props);
+        this.state = {
+            schools: schoolData,
+            students: studentData
+        }
+    }
+
+    render(){
+        return (
+            <React.Fragment>
+                <StudentContainer schools={ this.state.schools }
+                                students={ this.state.students }/>
+            </React.Fragment>
+        );
+    }
 }
 
 export default App;

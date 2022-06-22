@@ -1,5 +1,7 @@
 import React from 'react';
-import { Layout } from "antd"
+import { Link } from 'react-router-dom'
+import { Layout } from "antd";
+
 import NavigationMenu from './layoutParts/Menu';
 
 export const withTopMenu = (WrappedComponent) => {
@@ -10,24 +12,30 @@ export const withTopMenu = (WrappedComponent) => {
             const MenuItems = [
                 {
                     key: 1,
-                    label: 'Home'
+                    label: (<Link to="/">Home</Link>)
                 },
                 {
                     key: 2,
-                    label: 'About'
+                    label: (<Link to="/about">About</Link>)
+                },
+                {
+                    key: 3,
+                    label: (<Link to="/contact">Contact Us</Link>)
                 }
             ]
 
             return (
-                <Layout className="layout">
-                    <NavigationMenu theme="light" 
+                <Layout >
+                    <NavigationMenu theme="dark" 
                                     mode="horizontal"
                                     defaultSelectedKeys={ ["1"] }
                                     items={ MenuItems } />
                     <Content>
                         <WrappedComponent />
                     </Content>
-                    <Footer></Footer>
+                    <Footer style={{
+                        textAlign: "center"
+                    }}>©2022 Created by Jayrick Gacayan</Footer>
                 </Layout>
             );
         }

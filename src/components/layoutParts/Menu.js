@@ -17,14 +17,15 @@ class NavigationMenu extends React.Component{
     }
 
     render(){
+        const { Header } = Layout;
         return (
-            <Layout.Header className="header">
+            <Header>
                 <div className="logo" />
                 <Menu theme={ this.state.theme } 
                     mode={ this.state.mode } 
                     defaultSelectedKeys={ this.state.defaultSelectedKeys } 
                     items={ this.state.items } />
-            </Layout.Header>
+            </Header>
         )
     }
 }

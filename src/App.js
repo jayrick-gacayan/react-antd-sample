@@ -1,7 +1,6 @@
 import React, { Component, Suspense, lazy } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import ScreenLoading, { ScreenLoadingProvider } from './components/layoutParts/ScreenLoading';
-
 import { withTopMenu } from './components/layoutDesign';
 
 /* components */
@@ -16,11 +15,11 @@ class App extends Component{
         { path: '/about', element: AboutPage },
         { path: '/contact', element: ContactUsPage }
     ]; // application routes
-
+    
     render(){
         return (
-            
-                <ScreenLoadingProvider>
+            <ScreenLoadingProvider>
+                <Suspense fallback={ <ScreenLoading /> }>
                     <Routes>
                         {
                             this.appRoutes.map(
@@ -33,8 +32,8 @@ class App extends Component{
                             )
                         }
                     </Routes>
-                </ScreenLoadingProvider>
-            
+                </Suspense>
+            </ScreenLoadingProvider>
         );
     }
 }

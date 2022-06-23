@@ -1,11 +1,7 @@
 import React, { Component, createContext } from 'react';
 import { Layout, Spin } from 'antd';
 
-export const ScreenLoadingContext = createContext({
-    visible : true,
-    showScreenLoading: () => {},
-    hideScreenLoading: () => {}
-});
+export const ScreenLoadingContext = createContext();
 
 export class ScreenLoadingProvider extends Component{
     timer = null;
@@ -14,24 +10,38 @@ export class ScreenLoadingProvider extends Component{
 
         this.state = {
             visible: true,
-            showScreenLoading: ()
+
+            showScreenLoading: () => {
+                this.setState({ visible: true });
+            },
+            hideScreenLoading: () => {
+                this.setState({ visible: false });
+            }
         }
     }
 
     componentDidMount(){
-        
+        console.log("Provider state did update --- ", this.state.visible);
         if(this.state.visible){
             this.timer = setTimeout(
                 () => {
+                    
                     this.setState({ visible: false });
                 }
-                , 5000);
+                , 10000);
         }
         
     }
 
+    componentDidUpdate(){
+        
+        console.log("Provider state did update --- ", this.state.visible);
+    }
+
     componentWillUnmount(){
-        this.setState({ visible: true });
+        
+        
+        console.log("Provider state will unmount --- ", this.state.visible);
         clearTimeout(this.timer);
     }
 
@@ -45,14 +55,38 @@ export class ScreenLoadingProvider extends Component{
 }
 
 class ScreenLoading extends React.Component{
-    
+    screenLoadingTimer = null;
+    static contextType = ScreenLoadingContext;
+    componentDidMount(){
+        console.log("Load Screen didMount ", this.context );
+
+        this.context.showScreenLoading();
+
+        this.screenLoadingTimer = setTimeout(
+            () => {
+                this.context.hideScreenLoading();
+            }
+            , 10000);
+    }
+
+    componentDidUpdate(){
+        console.log("Load Screen didUpdate ", this.context );
+    }
+
+    componentWillUnmount(){
+        console.log("Load Screen willUnmount", this.context );
+    }
+
+
     render(){
+        console.log("Context", this.context.visible)
         return (
             <ScreenLoadingContext.Consumer>
                 {
                     ({ visible }) => {
+                        
                         return (
-                                visible && 
+                                visible &&
                                 <Layout style={{
                                         width: "100%",
                                         height: "100vh",
@@ -62,6 +96,7 @@ class ScreenLoading extends React.Component{
                                         backgroundColor: "#f2f3f8"
                                     }}>
                                     <Spin tip="loading"/>
+                                    
                                 </Layout>
                             );
                     }
